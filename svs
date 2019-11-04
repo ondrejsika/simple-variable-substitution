@@ -1,0 +1,15 @@
+#!/bin/sh
+# Simple Variable Substituton in Files
+#
+#     2019 Ondrej Sika <ondrej@ondrejsika.com>
+#     https://github.com/ondrejsika/simple-variable-substitution
+#
+
+cp $1 $2.1.tmp
+for var in $(env | grep TEMPLATE_ | awk -F '=' '{print $1}')
+do
+  sed "s/\$$var/${!var}/g" $2.1.tmp > $2.2.tmp
+  mv $2.2.tmp $2.1.tmp
+
+done
+mv $2.1.tmp $2
