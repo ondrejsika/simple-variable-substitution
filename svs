@@ -6,10 +6,11 @@
 #
 
 cp $1 $2.1.tmp
-for var in $(env | grep TEMPLATE_ | awk -F '=' '{print $1}')
+for var_val in $(env | grep TEMPLATE_ )
 do
-  sed "s/\$$var/${!var}/g" $2.1.tmp > $2.2.tmp
+  var=$(echo $var_val | awk -F '=' '{print $1}')
+  val=$(echo $var_val | awk -F '=' '{print $2}')
+  sed "s/\$$var/$val/g" $2.1.tmp > $2.2.tmp
   mv $2.2.tmp $2.1.tmp
-
 done
 mv $2.1.tmp $2
